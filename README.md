@@ -1,70 +1,202 @@
-# Getting Started with Create React App
+# Initial Set up
+```
+	npx create-react-app
+	npm install @mui/material @emotion/react @emotion/styled
+	npm install @material-ui/core
+	npm install @materail-ui/icons
+	npm install react-router-dom
+	npm i react-dom react-redux redux redux-devtools-extension redux-thunk axios
+```
+	
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
+#		Routing
+```
+import { BrowserRouter as Router, Route } from "react-router-dom";
+import Welcome from './screen/Welcome'
 
-In the project directory, you can run:
+export default function App(){
+return(
+	<Router>
+		<Header/>
+		<Route path='/'  component={Welcome} exact><Route>
+	<Router>
+	)
+}
+```
 
-### `npm start`
+* Here header is not routed using Route, therefore it will not have props of 
+ ```history,location and match```
+* to get those props in Header we ned to import withRouter  from react-router-dom and then export Header with HOC - 
+```
+export default withRouter(Header)
+```
+#	useLocation
+```
+	import {useLocation} from 'react-router-dom'
+	const location = useLocation()
+	
+	{location.pathname==='/' && <Home/>}
+```	
+	
+#	Link
+```
+	import {Link } from 'react-router-dom'
+	<Link to '/about' > About</Link>
+	//This will not reload the page, instead just change the component
+	
+	
+```
+	
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+	
+#	Redux
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```
+	npm install react-redux
+	npm install redux-thunk
+	npm install redux-devtools-extension --save
+	
+	-------------------------------------------------
+	import { Provider } from 'react-redux'
+	import store from './store'
 
-### `npm test`
+	const rootElement = document.getElementById('root')
+	ReactDOM.render(
+		<Provider store={store}>
+			<App />
+		</Provider>,
+		rootElement
+	)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+	-----------------------------------------------------
+		import {createStore, 
+			combineReducers} from 'redux'
+		
+		import {applyMiddleware} from 'redux'
+		
+		import thunk from 'redux-thunk'
+		import { composeWithDevTools } from "redux-devtools-extension";
+		
+		
+		const initialState={
+		
+		}
+		
+		const reducer = combineReducers({first:firstReducer});
+		const middleware =[thunk]
+		
+		const store= createStore(
+			reducer,
+			initialState,
+			composeWithDevTools(applyMiddleware(...middleware))
+		)
+		
+		export default store
+	
+	```
+	
+	
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+		
+	
+	
+# PropTypes and defaultProps
+```
+	import PropTypes from 'prop-types'
+	const Header=({title})=>{
+	return<>something {title}</>}
+	
+	Header.defaultProps={
+	title: 'some text'
+	}
+	
+	Header.propTypes={
+	title:Proptypes.String.isRequired
+	}
+	
+	
+```
+	
+#	Inline Styling
+```
+	<h1 style={{color:'red',backgroundColor:'black'}}>Something</h1>
+	OR
+	Heading ={color:'red',backgroundColor:'black'}
+	<h1 style={Heading}>Something</h1>
+```	
+# importing css file and using it as dynamic style
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Create CSS file with name ``somethinh.module.css``
 
-### `npm run eject`
+import it is js file with a name (classes)
+Now one can use the style dynamically as below
+```
+import classes from './something.module.css'
+<div className={classes.header}>
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+# Basic with material ui
+```
+	import react from 'react'
+	import {makeStyle} from '@material-ui/core'
+	
+	const useStyles = makeStyle((theme)=>({
+	
+		[theme.breakpoints.down('sm')]:{
+               marginLeft:'1px',
+               marginRight:'1px', 
+            },
+		})
+	)
+	
+	
+	export default function name(){
+	const classes = useStyle()
+	return()
+	}
+	
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+# Material UI
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```
+import {makeStyles} from '@material-ui/core'
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+const useStyle= makeStyles((theme)=>({
+    
+    header:{
+        display:'flex',
+        width:'100%',
+        background:'teal',
+        '& h4':{
+            margin:'0px',
+            color:'white'
+        },
+        [theme.breakpoints.down('md')]:{
+            background:'red',
+        }
+    },
 
-## Learn More
+    
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+})
+)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+export default function Header(){
+    const style=useStyle()
+    return(
+        <div className={style.header}>
+            <h4>Note Taking App</h4>
+        </div>
+    )
+}
+	
+```
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+	
+	
+	

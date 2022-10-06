@@ -1,0 +1,17 @@
+{
+  "name": "noteapp",
+  "version": "1.0.0",
+  "description": "An app to take notes",
+  "main": "index.js",
+  "scripts": {
+    "test": "test",
+    "server": "nodemon"
+  },
+  "author": "Najmus Saquib",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.9"
+  }
+}
