@@ -94,7 +94,7 @@ export default withRouter(Header)
 		
 		export default store
 	
-	```
+```
 	
 	
 
